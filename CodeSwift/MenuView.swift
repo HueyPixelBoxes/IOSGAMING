@@ -6,57 +6,72 @@
 //
 
 import SwiftUI
-import Foundation
+
+enum Page{
+    case Menu
+    case Game
+    case Guide
+    case Board
+    case Death
+}
 
 struct MenuView: View {
-    @EnvironmentObject var MenuNav : MenuManager 
-    @State private var isPressed = false
-    @State private var isToggle = false
+    @State private var gameIsPressed = false
+    @State private var guideIsPressed = false
+    @State private var boardIsPressed = false
+    @State private var currentPage = Page.Menu
+    
     var body: some View {
         VStack{
-            Image("theme.png")
-            Text("ROLL FOR DIME").font(.custom("Sol Schori Bold", size: 50))
-            ZStack{
-                Image(isPressed ? "blankpressed" : "blankunpressed") // use blank_image.png for press and unpress
-                Text("Play").font(.custom("Sol Schori Bold", size: 20))
-                }.resizable().overlay(
-                GeometryReader {geometry in Button (action: {}, label : {
-                    Text("")
-                        .frame(width: geometry.width, height: geometry.height)
-                        .contentShape(Rectangle())
-                    }).buttonStyle(.plain)
-                .pressAction{
-                    isPressed = true
-                    MenuNav.page = .game
-                }}).frame (width: 100, height: 40)
+            if currentPage == .Menu{
+                Image("theme.png")
+                Text("ROLL FOR DIME").font(.custom("Sol Schori Bold", size: 90)).multilineTextAlignment(.center)
+                Button{
+                    gameIsPressed = true
+                    currentPage = .Game
+                } label:{
+                    VStack{
+                        Image(!gameIsPressed ? "blankunpressed" : "blankpressed")
+                            .resizable().scaledToFit().frame(height: 120)
+                        Text("Game").font(.custom("Sol Schori Bold", size: 20))
+                    }
+                }.buttonStyle(.plain)
 
-            ZStack{
-                Image(isPressed ? "blankpressed" : "blankunpressed") // use blank_image.png for press and unpress
-                Text("How To Play").font(.custom("Sol Schori Bold", size: 20))
-                }.resizable().overlay(
-                GeometryReader {geometry in Button (action: {}, label : {
-                    Text("")
-                        .frame(width: geometry.width, height: geometry.height)
-                        .contentShape(Rectangle())
-                    }).buttonStyle(.plain)
-                .pressAction{
-                    isPressed = true
-                    MenuNav.page = .game
-                }}).frame (width: 100, height: 40)
+                Button{
+                    guideIsPressed = true
+                    currentPage = .Guide
+                } label:{
+                    VStack{
+                        Image(!guideIsPressed ? "blankunpressed" : "blankpressed")
+                            .resizable().scaledToFit().frame(height: 120)
+                        Text("How To Play").font(.custom("Sol Schori Bold", size: 20))
+                    }
+                }.buttonStyle(.plain)
 
-            ZStack{
-                Image(isPressed ? "blankpressed" : "blankunpressed") // use blank_image.png for press and unpress
-                Text("LeaderBoard").font(.custom("Sol Schori Bold", size: 20))
-                }.resizable().overlay(
-                GeometryReader {geometry in Button (action: {}, label : {
-                    Text("")
-                        .frame(width: geometry.width, height: geometry.height)
-                        .contentShape(Rectangle())
-                    }).buttonStyle(.plain)
-                .pressAction{
-                    isPressed = true
-                    MenuNav.page = .game
-                }}).frame (width: 100, height: 40)
+                Button{
+                    boardIsPressed = true
+                    currentPage = .Board
+                } label:{
+                    VStack{
+                        Image(!boardIsPressed ? "blankunpressed" : "blankpressed")
+                            .resizable().scaledToFit().frame(height: 120)
+                        Text("LeaderBoard").font(.custom("Sol Schori Bold", size: 20))
+                    }
+                }.buttonStyle(.plain)
+            }
+            else{
+                switch currentPage {
+                case .Game:
+                    SettingView()
+                case .Guide:
+                    HowToPlayView()
+                case .Board:
+                    LeaderboardView()
+                default:
+                    MenuView()
+                }
+                
+            }
         }
         
     }
@@ -64,6 +79,6 @@ struct MenuView: View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView().environmentObject(MenuManager())
+        MenuView()
     }
 }

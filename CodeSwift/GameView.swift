@@ -4,13 +4,12 @@
 //
 //  Created by Huy Pham Quang on 29/08/2023.
 //
-import Foundation
+
 import SwiftUI
 
-
-struct GameView: View { // hands waving back and forth - need rotation + repeat forever
+struct GameView: View {
     var body: some View {
-        //dice for game for selection + View model
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 

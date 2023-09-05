@@ -7,16 +7,30 @@
 
 import SwiftUI
 
-// load up data from json file then up into leader board in NAV List
-// need modelView
 struct LeaderboardView: View {
+    @State var isPressed = false
+    @State var currentPage = Page.Board
+    
     var body: some View {
-        
+        VStack{ // view explain mechanics
+            if currentPage == .Board{
+                Button{
+                    isPressed = true
+                    currentPage = .Menu
+                }label:{
+                        Image(!isPressed ? "blankunpressed" : "blankpressed")
+                            .resizable().scaledToFit().frame(height: 60)
+                }.buttonStyle(.plain).padding(10)
+            }
+            else{
+                MenuView()
+            }
+        }
     }
 }
 
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardView().environmentObject(MenuManager())
+        LeaderboardView()
     }
 }
