@@ -16,48 +16,34 @@ enum Page{
 }
 
 struct MenuView: View {
-    @State private var gameIsPressed = false
-    @State private var guideIsPressed = false
-    @State private var boardIsPressed = false
     @State private var currentPage = Page.Menu
+    @Environment (\.colorScheme) var colorScheme
     
     var body: some View {
         VStack{
             if currentPage == .Menu{
-                Image("theme.png")
                 Text("ROLL FOR DIME").font(.custom("Sol Schori Bold", size: 90)).multilineTextAlignment(.center)
                 Button{
-                    gameIsPressed = true
                     currentPage = .Game
                 } label:{
-                    VStack{
-                        Image(!gameIsPressed ? "blankunpressed" : "blankpressed")
-                            .resizable().scaledToFit().frame(height: 120)
-                        Text("Game").font(.custom("Sol Schori Bold", size: 20))
+                    ZStack{
+                        Text("Game").font(.custom("Sol Schori Bold", size: 40))
                     }
-                }.buttonStyle(.plain)
+                }.buttonStyle(.plain).padding(20)
 
                 Button{
-                    guideIsPressed = true
                     currentPage = .Guide
                 } label:{
-                    VStack{
-                        Image(!guideIsPressed ? "blankunpressed" : "blankpressed")
-                            .resizable().scaledToFit().frame(height: 120)
-                        Text("How To Play").font(.custom("Sol Schori Bold", size: 20))
-                    }
-                }.buttonStyle(.plain)
+                        Text("How To Play").font(.custom("Sol Schori Bold", size: 40))
+                }.buttonStyle(.plain).padding(20)
 
                 Button{
-                    boardIsPressed = true
                     currentPage = .Board
                 } label:{
-                    VStack{
-                        Image(!boardIsPressed ? "blankunpressed" : "blankpressed")
-                            .resizable().scaledToFit().frame(height: 120)
-                        Text("LeaderBoard").font(.custom("Sol Schori Bold", size: 20))
-                    }
-                }.buttonStyle(.plain)
+                    
+                        Text("LeaderBoard").font(.custom("Sol Schori Bold", size: 40))
+                    
+                }.buttonStyle(.plain).padding(20)
             }
             else{
                 switch currentPage {
@@ -79,6 +65,6 @@ struct MenuView: View {
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView().environment(\.colorScheme, .light)
     }
 }

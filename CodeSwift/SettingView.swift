@@ -8,22 +8,40 @@
 import SwiftUI
 
 struct SettingView: View {
+    @StateObject var setting = GameViewModel()
     @State private var isPressed = false
     var body: some View {
         VStack{
             if !isPressed {
                 Text("Choose Difficulties").font(.custom("Sol Schori Bold", size: 40))
                     .multilineTextAlignment(.center)
-                Button{
-                    isPressed = true
-                }label:{
-                        Text("Embark").font(.custom("Sol Schori Bold", size: 30))
-                        .padding(10)
-                }.buttonStyle(.plain)
+                HStack{
+                    Button{
+                        setting.settingCreate(settingName: "Childplay")
+                        isPressed = true
+                    }label:{
+                            Text("Childplay").font(.custom("Sol Schori Bold", size: 18))
+                            .padding(10)
+                    }.buttonStyle(.plain)
+                    Button{
+                        setting.settingCreate(settingName: "Dime&Dozen")
+                        isPressed = true
+                    }label:{
+                            Text("Dime&Dozen").font(.custom("Sol Schori Bold", size: 18))
+                            .padding(10)
+                    }.buttonStyle(.plain)
+                    Button{
+                        setting.settingCreate(settingName: "Gambler")
+                        isPressed = true
+                    }label:{
+                            Text("Gambler").font(.custom("Sol Schori Bold", size: 18))
+                            .padding(10)
+                    }.buttonStyle(.plain)
+                }
             }
             else
             {
-                GameView()
+                GameView(setting: setting)
             }
         }
     }
@@ -31,6 +49,6 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView()
+        SettingView().environmentObject(GameViewModel())
     }
 }

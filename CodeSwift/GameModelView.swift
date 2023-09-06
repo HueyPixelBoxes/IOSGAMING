@@ -1,72 +1,79 @@
-//
-//  GameModelView.swift
-//  RollORDie
-//
-//  Created by Huy Pham Quang on 05/09/2023.
-//
-
 import Foundation
 
-import Foundation
-
-class Dice {
-    var value : Int
-    var isSelected : Bool
+class GameViewModel : ObservableObject{
+    @Published var left_die = 1
+    @Published var right_die = 1
+    @Published var win = 0
+    @Published var conditionWinning = 0
+    @Published var conditionSignBigger = false
     
-    init(val : Int, select : Bool){
-        self.value = val
-        self.isSelected = select
-    }
-}
+    @Published var maxLives = 0
+    @Published var currentLives = 0
+    
+    @Published var diff_name = ""
+    var upper_limit = 0
+    var lower_limit = 0
+    @Published var rerolls : Int = 0
+    @Published var maxRerolls : Int = 0
 
-class GameSetting : ObservableObject{
-    var diff_name : String
-    var upper_limit_dice : Int
-    var lower_limit_dice : Int
-    var difference_tolerance : Int
-    var lives : Int
-    var rerolls : Int
-
-    let pos_min_dice = 2
-    let pos_max_dice = 12
-
-    init(settingName: String){
+    func settingCreate(settingName: String){
         self.diff_name = settingName // name for setting - difficulties
         switch settingName{
             case "Childplay":
-                self.upper_limit_dice = 5 // for condition "larger than" value from 2 ... 5
-                self.lower_limit_dice = 9 // for condition "lower than" value from 9 ... 12
-                self.difference_tolerance = 5 // for condition between
-                self.lives = 5 // lives for losing a game
-                self.rerolls = 5 // to select a dice and reroll dice
+                self.upper_limit = 10
+                self.lower_limit = 4
+                self.maxLives = 7 // lives for losing a game
+                self.rerolls = 7 // to select a dice and reroll dice
             case "Gambler":
-                self.upper_limit_dice = 9
-                self.lower_limit_dice = 5
-                self.difference_tolerance = 3
-                self.lives = 2
-                self.rerolls = 2
+                self.upper_limit = 12
+                self.lower_limit = 2
+                self.maxLives = 5
+                self.rerolls = 5
             default:
-                self.upper_limit_dice = 7
-                self.lower_limit_dice = 7
-                self.difference_tolerance = 4
-                self.lives = 3
-                self.rerolls = 3
+                self.upper_limit = 11
+                self.lower_limit = 3
+                self.maxLives = 6
+                self.rerolls = 6
+        }
+        self.currentLives = self.maxLives
+        self.maxRerolls = self.rerolls
+        self.setWinCondition()
+    }
+    func setWinCondition(){
+        self.conditionSignBigger = Bool.random()
+        self.conditionWinning = Int.random(in: self.lower_limit ... self.upper_limit)
+    }
+    func roll(){
+        if(self.rerolls > 1){
+            self.left_die = Int.random(in: 1...6)
+            self.right_die = Int.random(in: 1...6)
+            self.rerolls -= 1;
+        }else{
+            self.rerolls = 0
         }
     }
+    func check_win_condition(){
+        let total = (self.left_die + self.right_die)
+        if(self.conditionSignBigger && total >= self.conditionWinning)
+        {
+            self.win += 1
+            self.rerolls = maxRerolls
+        }
+        else if (!self.conditionSignBigger && total <= self.conditionWinning)
+        {
+            self.win += 1
+            self.rerolls = maxRerolls
+        }
+        else
+        {
+            self.currentLives -= 1
+        }
+    }
+
+    
 }
 
-//class GameViewModel : ObservableObject{
-//    @Published var die : [Dice] = []
-//    @Published var highscore : Int
-//    @Published var settingName : String
-//    @Published var biggerVal:Int
-//    @Published var smallerVal : Int
-//    var setting = GameSetting(settingName: "")
-//
-//    init(){
-//        self.die = [Dice(val: 0, select: true), Dice(val: 0, select: true)]
-//    }
-//
-//}
+
+
 
 

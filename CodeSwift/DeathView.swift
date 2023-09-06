@@ -10,9 +10,8 @@ import SwiftUI
 import SwiftUI
 
 struct DeathView: View {
-    @State private var isPressedMenu = false
-    @State private var isPressedGame = false
     @State private var currentPage = Page.Death
+    @ObservedObject var setting : GameViewModel
     var body: some View {
         VStack{
             // death image
@@ -21,25 +20,18 @@ struct DeathView: View {
                 if currentPage == .Death{
                     Image("death")
                     Text("YOU ARE DEAD").font(.custom("Sol Schori Bold", size: 40))
+                    Text("\(setting.win)").font(.custom("Sol Schori Bold", size: 35))
                     Button{
-                        isPressedMenu = true
                         currentPage = .Menu
                     }label:{
-                        VStack{
-                            Image(!isPressedMenu ? "blankunpressed" : "blankpressed")
-                                .resizable().scaledToFit().frame(height: 120)
                             Text("Return to menu").font(.custom("Sol Schori Bold", size: 30))
-                        }
-                    }.buttonStyle(.plain)
+                    
+                    }.buttonStyle(.plain).padding(20)
                     Button{
-                        isPressedGame = true
                         currentPage = .Game
                     }label:{
-                        VStack{
-                            Image(!isPressedGame ? "blankunpressed" : "blankpressed")
-                                .resizable().scaledToFit().frame(height: 120)
+                        
                             Text("Play Again").font(.custom("Sol Schori Bold", size: 30))
-                        }
                     }.buttonStyle(.plain)
                 }
                 else{
@@ -49,15 +41,10 @@ struct DeathView: View {
                     case .Game:
                         SettingView()
                     default:
-                        DeathView()
+                        DeathView(setting: GameViewModel())
                     }
                 }
             }
         }
-    }
-}
-struct DeathView_Previews: PreviewProvider {
-    static var previews: some View {
-        DeathView()
     }
 }
