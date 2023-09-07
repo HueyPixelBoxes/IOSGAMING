@@ -1,0 +1,6 @@
+make PLayerdata after game over
+
+append new player in List of navList 
+
+UserKeys.allCases.forEach{
+            removeObject(forKey: $0.rawValue)
