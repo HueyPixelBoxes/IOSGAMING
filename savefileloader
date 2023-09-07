@@ -1,0 +1,8 @@
+@AppStorage ("key") var key : Int = smt
+//app storage for diff things like name, high score, name and badge, statistic
+@App stogae for storing aforementional data like Int
+so just get name from object for each player, hash into key then get it over with
+
+save data can be stateobject with array of Player then pass onto View like NavList
+to add new player append them into the PLayer array then save the array by name, high score and badge, stat ( 4 array)
+2 kind - current data during game and data save into scen
