@@ -1,0 +1,3 @@
+in stack : 
+@AppStorage ('isDark') private var isToggle = false
+.environment(.\colorScheme, isDark ? .dark : .light)
