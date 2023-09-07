@@ -1,0 +1,11 @@
+// button pressed
+for i in 1...6 {
+  HStack{
+    Image(Int.random(1...6))
+    Image(Int.random(1...6)) // dummy dice
+  }
+}
+HStack{
+    Image("\(left.val)"))
+    Image("\(right.val)") // real value
+}
