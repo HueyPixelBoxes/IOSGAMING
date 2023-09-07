@@ -1,0 +1,31 @@
+StateObject array playerData : [Player]
+
+NavigationView{
+  List (playerData, id: \.self){ player in 
+    NavigationLink{
+      View(player : player)
+    label{
+      HStack{
+        Text("\(playerData.name)")
+        Image("\(playerDaya.highscore)")
+      }
+    }
+}.navigationTitle("LEADERBOARDr").font
+  }
+}
+
+struct view: View{
+  @ObservedObject let player : Player
+  var body : some View{
+    HStack {
+      Text
+      Text
+      HStack{ 
+        ForEach(player.achivement){
+          Iamge(achivement badge)
+          Text("label")
+        }
+      }
+    }
+  }
+}
